@@ -1,101 +1,106 @@
-import { Link, Stack } from 'expo-router'
-import { View, Text, ScrollView } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import React from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
-import { AuthWrapper, BoxLink, Icons, Logout, Person } from '@/components'
-import { useUserInfo } from '@/hooks'
-
-export default function ProfileScreen() {
-  //? Assets
-  const insets = useSafeAreaInsets()
-  const { userInfo, isLoading } = useUserInfo()
-
-  const profilePaths = [
-    {
-      name: 'My Orders',
-      Icon: Icons.SimpleLineIcons,
-      IconName: 'handbag',
-      path: '/profile/orders',
-    },
-    {
-      name: 'My Favorites',
-      Icon: Icons.Feather,
-      IconName: 'heart',
-      path: '/profile/lists',
-    },
-    {
-      name: 'My Reviews',
-      Icon: Icons.FontAwesome5,
-      IconName: 'comment',
-      path: '/profile/reviews',
-    },
-    {
-      name: 'Address Management',
-      Icon: Icons.MaterialIcons,
-      IconName: 'location-city',
-      path: '/profile/addresses',
-    },
-    {
-      name: 'Recent Visits',
-      Icon: Icons.AntDesign,
-      IconName: 'clockcircleo',
-      path: '/profile/user-history',
-    },
-    {
-      name: 'Account Info',
-      Icon: Icons.AntDesign,
-      IconName: 'user',
-      path: '/profile/personal-info',
-    },
-  ];
-  
-  //？Render(s)
+const ProfileScreen = () => {
   return (
-    <>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-      <AuthWrapper tips="Enjoy Shopping">
-        <ScrollView className="bg-white">
-          <View style={{ paddingTop: insets.top + 60 }} className="flex bg-white">
-            <View className="flex flex-row items-center px-4">
-              <Person className="w-12 h-12 mr-5" />
-              <View className="flex flex-col flex-1 gap-y-1">
-                {isLoading ? (
-                  <>
-                    <View className="h-5 bg-red-200 rounded-md animate-pulse" />
-                    <View className="w-32 h-5 bg-red-200 rounded-md animate-pulse" />
-                  </>
-                ) : (
-                  <>
-                    <Text className=" text-xl font-bold">{userInfo?.name}</Text>
-                    <Text className="text-sm">{userInfo?.mobile}</Text>
-                  </>
-                )}
-              </View>
-              <Link href="/profile/personal-info">
-                <Icons.Feather
-                  name="edit"
-                  size={30}
-                  color="black"
-                  className="icon text-gray-700  lg:mr-3"
-                />
-              </Link>
-            </View>
-
-            <View className="mt-7 px-4">
-              {profilePaths.map((item, index) => (
-                <BoxLink key={index} path={item.path} name={item.name}>
-                  <item.Icon name={item.IconName} size={24} className="text-gray-700" />
-                </BoxLink>
-              ))}
-              <Logout />
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header Section */}
+        <View className="p-5 bg-white">
+          <View className="flex-row items-center">
+            <Image
+              source={{ uri: 'https://avatar.iran.liara.run/public/40' }}
+              className="w-20 h-20 rounded-full mr-4"
+              resizeMode="cover"
+            />
+            <View>
+              <Text className="text-2xl font-bold text-gray-800 mb-2">Hi👋🏻 John!</Text>
+              <Text className="text-base text-gray-600">23409185786</Text>
             </View>
           </View>
-        </ScrollView>
-      </AuthWrapper>
-    </>
-  )
-}
+        </View>
+
+        {/* Status Section */}
+        <View className="flex-row justify-evenly px-5 py-5">
+          <View className="bg-orange-500 py-3 px-8 rounded-md">
+            <Text className="text-white text-lg font-bold">Free User</Text>
+          </View>
+          <TouchableOpacity className="bg-greenish py-3 px-8 rounded-md">
+            <Text className="text-white text-lg font-bold">Upgrade Now</Text>
+          </TouchableOpacity>
+        </View>
+        <Text className="text-blue-500 text-sm font-bold text-center py-2 text-sm">
+          You can only take 2 more bookings as a FREE User. Upgrade Now!!!
+        </Text>
+
+        {/* Account Section */}
+        <View className="mt-5 px-5">
+          <Text className="text-base font-bold text-gray-800 mb-3">Account</Text>          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200"
+          onPress={() => router.push("/(main)/profile/personal-info")}
+          >
+            <Text className="text-base text-gray-800">Personal Information</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">My Network</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Offers & Contest</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Manage Drivers</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Manage Vehicles</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200"
+          onPress={() => router.push("/(main)/profile/payment-method")}
+          >
+            <Text className="text-base text-gray-800">Payment Methods</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Language</Text>
+            <View className="flex-row items-center">
+              <Text className="text-base text-gray-600 mr-2">English</Text>
+              <Text className="text-xl text-gray-600">›</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Transactions</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* General Section */}
+        <View className="mt-5 px-5 mb-5">
+          <Text className="text-base font-bold text-gray-800 mb-3">General</Text>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">About us</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Privacy Policy</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Booking Management Software</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
+            <Text className="text-base text-gray-800">Logout</Text>
+            <Text className="text-xl text-gray-600">›</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default ProfileScreen;

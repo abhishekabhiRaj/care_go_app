@@ -1,87 +1,153 @@
-import { Stack } from 'expo-router'
-import { Text, View } from 'react-native'
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  SafeAreaView, 
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
+} from 'react-native';
 
-import { Icons, Skeleton, UserMobileModal, UserNameModal } from '@/components'
-import { useDisclosure, useUserInfo } from '@/hooks'
+// Reusable RoleButton component
+const RoleButton = ({ role, selectedRole, onSelect }) => {
+  return (
+    <TouchableOpacity
+      className={`flex-1 mx-1 py-3 rounded-md border border-gray-300 ${
+        role === selectedRole ? 'bg-gray-800' : 'bg-white'
+      }`}
+      onPress={() => onSelect(role)}
+    >
+      <Text
+        className={`text-center font-bold ${
+          role === selectedRole ? 'text-white' : 'text-gray-800'
+        }`}
+      >
+        {role}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 const PersonalInfoScreen = () => {
-  //? Assets
-  const [isShowNameModal, nameModalHandlers] = useDisclosure()
-  const [isShowPhoneModal, phoneModalHandlers] = useDisclosure()
+  // State for form fields
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('Agent'); // Default role
+  const [licenseNumber, setLicenseNumber] = useState('');
 
-  //? Get User Data
-  const { userInfo, isLoading } = useUserInfo()
+  // List of available roles
+  const roles = ['Agent', 'Owner', 'Driver'];
 
-  //? Local Component
-  const InfoField = ({ label, info, editHandler, isLoading }) => (
-    <View className="flex px-5">
-      <View className="flex flex-row items-center justify-between py-4 border-b border-gray-200">
-        <View className="flex gap-y-2">
-          <Text className="text-xs text-gray-700">{label}</Text>
-          {isLoading ? (
-            <Skeleton.Item animated="background" height="h-5" width="w-44" />
-          ) : (
-            <Text className="h-5 text-sm">{info}</Text>
-          )}
-        </View>
-        {isLoading ? null : info ? (
-          <Icons.Feather
-            onPress={editHandler}
-            name="edit"
-            size={16}
-            className="cursor-pointer icon"
-          />
-        ) : (
-          <Icons.Feather
-            onPress={editHandler}
-            name="plus"
-            size={16}
-            className="cursor-pointer icon"
-          />
-        )}
-      </View>
-    </View>
-  )
+  // Handle role selection
+  const handleRoleSelect = (selectedRole) => {
+    setRole(selectedRole);
+  };
 
-  //? Render(s)
+  // Handle form submission (for the Update button)
+  const handleUpdate = () => {
+    console.log('Updated Info:', { name, location, companyName, email, role, licenseNumber });
+  };
+
   return (
-    <>
-      <Stack.Screen
-        options={{
-          title: '帐户信息',
-          headerBackTitleVisible: false,
-        }}
-      />
-      {!isLoading && userInfo && (
-        <>
-          <UserNameModal
-            isShow={isShowNameModal}
-            onClose={nameModalHandlers.close}
-            editedData={userInfo.name}
-          />
-          <UserMobileModal
-            isShow={isShowPhoneModal}
-            onClose={phoneModalHandlers.close}
-            editedData={userInfo.mobile}
-          />
-        </>
-      )}
-      <View className="h-full bg-white">
-        <InfoField
-          label="名字和姓氏"
-          info={userInfo?.name}
-          editHandler={nameModalHandlers.open}
-          isLoading={isLoading}
-        />
-        <InfoField
-          label="电话号码"
-          info={userInfo?.mobile}
-          editHandler={phoneModalHandlers.open}
-          isLoading={isLoading}
-        />
-      </View>
-    </>
-  )
-}
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+        className="flex-1"
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View className="p-5">
+            {/* Avatar */}
+            <View className="items-center mb-8">
+              <Image
+                source={{ uri: 'https://avatar.iran.liara.run/public/40' }}
+                className="w-20 h-20 rounded-full"
+                resizeMode="cover"
+              />
+            </View>
 
-export default PersonalInfoScreen
+            {/* Form Fields */}
+            <View className="mb-6">
+              <TextInput
+                className="bg-white rounded-md p-4 text-base text-gray-800 border border-gray-300"
+                value={name}
+                onChangeText={setName}
+                placeholder="Name"
+                placeholderTextColor="#A9A9A9"
+              />
+            </View>
+
+            <View className="mb-6">
+              <TextInput
+                className="bg-white rounded-md p-4 text-base text-gray-800 border border-gray-300"
+                value={location}
+                onChangeText={setLocation}
+                placeholder="Location"
+                placeholderTextColor="#A9A9A9"
+              />
+            </View>
+
+            <View className="mb-6">
+              <TextInput
+                className="bg-white rounded-md p-4 text-base text-gray-800 border border-gray-300"
+                value={companyName}
+                onChangeText={setCompanyName}
+                placeholder="Company Name"
+                placeholderTextColor="#A9A9A9"
+              />
+            </View>
+
+            <View className="mb-6">
+              <TextInput
+                className="bg-white rounded-md p-4 text-base text-gray-800 border border-gray-300"
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Email (Optional)"
+                placeholderTextColor="#A9A9A9"
+                keyboardType="email-address"
+              />
+            </View>
+
+            {/* Role Selection */}
+            <View className="flex-row justify-between mb-6">
+              {roles.map((roleItem) => (
+                <RoleButton
+                  key={roleItem}
+                  role={roleItem}
+                  selectedRole={role}
+                  onSelect={handleRoleSelect}
+                />
+              ))}
+            </View>
+
+            <View className="mb-8">
+              <TextInput
+                className="bg-white rounded-md p-4 text-base text-gray-800 border border-gray-300"
+                value={licenseNumber}
+                onChangeText={setLicenseNumber}
+                placeholder="License Number (Optional)"
+                placeholderTextColor="#A9A9A9"
+              />
+            </View>
+
+            {/* Update Button */}
+            <TouchableOpacity
+              className="bg-green-500 py-4 rounded-md mt-4 mb-10"
+              onPress={handleUpdate}
+            >
+              <Text className="text-center text-white font-bold text-base">
+                SUBMIT
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
+
+export default PersonalInfoScreen;
