@@ -22,6 +22,12 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="profile2"
+        options={{
+          tabBarIcon: ({ color }) => <Feather name="plus" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="cart"
         options={{
           tabBarIcon: ({ color }) => <Feather name="shopping-cart" size={24} color={color} />,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { 
   View, 
   Text, 
@@ -10,9 +10,16 @@ import {
   Platform,
   ScrollView
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Reusable RoleButton component
 const RoleButton = ({ role, selectedRole, onSelect }) => {
+    const navigation = useNavigation();
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerShown: false,
+      });
+    }, [navigation]);
   return (
     <TouchableOpacity
       className={`flex-1 mx-1 py-3 rounded-md border border-gray-300 ${
@@ -39,6 +46,7 @@ const PersonalInfoScreen = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('Agent'); // Default role
   const [licenseNumber, setLicenseNumber] = useState('');
+  const navigation = useNavigation();
 
   // List of available roles
   const roles = ['Agent', 'Owner', 'Driver'];
@@ -60,6 +68,9 @@ const PersonalInfoScreen = () => {
         className="flex-1"
       >
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View className='bg-white p-4' style={{ elevation:5  }}>
+          <Text onPress={() => navigation.goBack()}>Back</Text>
+          </View>
           <View className="p-5">
             {/* Avatar */}
             <View className="items-center mb-8">
