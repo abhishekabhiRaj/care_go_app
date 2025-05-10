@@ -31,13 +31,14 @@ const ProfileScreen = () => {
             <Text className="text-white text-lg font-bold">Upgrade Now</Text>
           </TouchableOpacity>
         </View>
-        <Text className="text-blue-500 text-sm font-bold text-center py-2 text-sm">
+        <Text className="text-blue-500 text-sm font-bold text-center py-2">
           You can only take 2 more bookings as a FREE User. Upgrade Now!!!
         </Text>
 
         {/* Account Section */}
         <View className="mt-5 px-5">
-          <Text className="text-base font-bold text-gray-800 mb-3">Account</Text>          <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200"
+          <Text className="text-base font-bold text-gray-800 mb-3">Account</Text>         
+           <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200"
           onPress={() => router.push("/(main)/profile/personal-info")}
           >
             <Text className="text-base text-gray-800">Personal Information</Text>
