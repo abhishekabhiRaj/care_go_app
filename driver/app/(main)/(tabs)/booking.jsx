@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import useHideHeader from '@/hooks/useHideHeader';
 
-const ProfileScreen = () => {
+const BookingScreen = () => {
+  useHideHeader();
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -16,7 +18,7 @@ const ProfileScreen = () => {
               resizeMode="cover"
             />
             <View>
-              <Text className="text-2xl font-bold text-gray-800 mb-2">Hi👋🏻 John!</Text>
+              <Text className="text-2xl font-bold text-gray-800 mb-2">Hi👋🏻 Booking!</Text>
               <Text className="text-base text-gray-600">23409185786</Text>
             </View>
           </View>
@@ -104,4 +106,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default BookingScreen;

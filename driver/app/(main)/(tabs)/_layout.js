@@ -21,12 +21,14 @@ export default function TabsLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="category" size={24} color={color} />,
         }}
       />
+
       <Tabs.Screen
-        name="profile2"
+        name="booking"
         options={{
           tabBarIcon: ({ color }) => <Feather name="plus" size={24} color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="cart"
         options={{
