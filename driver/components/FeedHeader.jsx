@@ -27,27 +27,27 @@ export default function FeedHeader() {
       <View className="flex flex-row items-center justify-between">
         <Logo width={120} height={40} />
         <View className="flex flex-row space-x-3 pr-1">
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               handleIconClick('/notice')
             }}
           >
             <Icons.Ionicons name="notifications-outline" size={24} color="black" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <Pressable
+          <TouchableOpacity
             onPress={() => {
               handleIconClick('/cart')
             }}
             className="relative"
           >
-            <Icons.AntDesign name="shoppingcart" size={24} color="#1F2937" />
+            <Icons.Ionicons name="call-outline" size={18} color="#1F2937" />
             {formatNumber(totalItems) && (
               <View className="absolute outline outline-2 -top-3 -right-3 bg-greenish rounded-md w-5 h-5 p-0.5">
                 <Text className=" text-center text-xs text-white">{formatNumber(totalItems)}</Text>
               </View>
             )}
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
       <Search />
