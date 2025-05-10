@@ -1,0 +1,32 @@
+# React Native
+/driver/node_modules/
+
+# Expo
+/driver/.expo/
+/driver/.expo-shared/
+
+# Build files
+*.expo
+*.expo.*
+
+# iOS
+ios/Pods/
+ios/build/
+ios/.idea/
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Environment files
+/driver/.env
