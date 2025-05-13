@@ -1,9 +1,12 @@
 # React Native
+/user/node_modules/
 /driver/node_modules/
 
 # Expo
 /driver/.expo/
 /driver/.expo-shared/
+/user/.expo/
+/user/.expo-shared/
 
 # Build files
 *.expo
@@ -30,3 +33,4 @@ android/build/
 
 # Environment files
 /driver/.env
+/user/.env
